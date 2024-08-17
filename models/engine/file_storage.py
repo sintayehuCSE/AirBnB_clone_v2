@@ -18,9 +18,41 @@ class FileStorage():
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
-        """Returns the dictionary __objects"""
-        return FileStorage.__objects
+    def all(self, cls=None):
+        """Returns the dictionary __objects OR dict objects of specified class"""
+        if cls:
+            from models.base_model import BaseModel
+            from models.user import User
+            from models.city import City
+            from models.place import Place
+            from models.state import State
+            from models.amenity import Amenity
+            from models.review import Review
+
+            cls_dict = {
+                'BaseModel': BaseModel,
+                'User': User,
+                'City': City,
+                'Place': Place,
+                'State': State,
+                'Amenity': Amenity,
+                'Review': Review
+            }
+            ret_dict = {}
+            try:
+                if type(cls) is not str:
+                    cls = cls.__name__
+                constructor = cls_dict[cls]
+            except KeyError as e:
+                print(e)
+            else:
+                for key in FileStorage.__objects:
+                    if type(FileStorage.__objects[key]) is constructor:
+                        ret_dict[key] = FileStorage.__objects[key]
+            finally:
+                return ret_dict
+        else:
+            return FileStorage.__objects
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
@@ -82,3 +114,15 @@ class FileStorage():
             }
         new_obj = class_dict[class_name](**kwargs)
         return new_obj
+    
+    def delete(self, obj=None):
+        """
+        Deletes an object from the live object list of the project
+        Args:
+            obj (object): Object to be deleted
+        """
+        if obj:
+            key = '{}.{}'.format(type(obj).__name__, obj.id)
+            if key in FileStorage.__objects:
+                del FileStorage.__objects[key]
+
