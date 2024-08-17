@@ -14,6 +14,8 @@ from models.amenity import Amenity
 from models.review import Review
 from models import storage
 
+key_name = 'abcdefghijklmnopqrstuvwxyz_'
+value_name = 'abcdefghijklmnopqrstuvwxyz_'
 
 class HBNBCommand(cmd.Cmd):
     """ A simple framework for line-oriented command interpretor
@@ -37,14 +39,28 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-        """Usage: create <class>
+        """Usage: create <Class Name> OR create <Class Name> <param 1> <param 2> <param 3>...
+        Param syntax: <key name>=<value>
+        
         Create a new class instance and print its id.
         """
-        constructor = self.find_class(arg)
+        constructor, param = self.find_class(arg)
         if constructor:
             obj = constructor()
-            obj.save()
             print(obj.id)
+        if constructor and param:
+            param_dict = self.format_param(param)
+            for key in param_dict:
+                try:
+                    if hasattr(obj, key):
+                        try:
+                            obj.__dict__[key] = type(getattr(obj, key))(param_dict[key])
+                        except Exception as e:
+                            print(e)
+                except Exception as e:
+                    print(e)
+        if constructor:
+            obj.save()
 
     def do_show(self, arg):
         """Usage: show <class> <id> or <class>.show(<id>)
@@ -208,12 +224,13 @@ class HBNBCommand(cmd.Cmd):
         }
         if not arg:
             print("** class name missing **")
-            return None
+            return (None, None)
         try:
-            return class_dict[arg]
+            class_name, param = self.parse_arg(arg)
+            return (class_dict[class_name], param)
         except KeyError:
             print("** class doesn't exist **")
-            return None
+            return (None, None)
 
     def parse_arg(self, arg):
         """Parse the input argument to the command of HBNB interpretor
@@ -289,6 +306,47 @@ class HBNBCommand(cmd.Cmd):
             self.do_update(class_name + " " + arg_format)
         else:
             print("*** Unknown syntax: {}{}".format(class_name, arg))
+    
+    def format_param(self, param):
+        """
+            Formats the input key-value pairs in to a dictionary attribute
+            Args:
+                param (str): The key-value input parameters as oject attribute
+        """
+        att_dict = {}
+        while param:
+            key = param[:param.find('=')].strip(' ')
+            param = param[len(key) + 1:].strip(' ')
+            if ' ' in param:
+                value = param[:param.find(' ')].strip(' ')
+                param = param[param.find(' ') + 1:].strip(' ')
+            else:
+                value = param
+                param = ''
+            value = value.strip('"')
+            valid_key = self.check_key_validity(key)
+            value = value.replace('_', ' ', len(value))
+            if valid_key:
+                att_dict[key] = value
+            else:
+                return {}
+        return att_dict
+    
+    def check_key_validity(self, key):
+        """
+            Check that key name conforms to conventional attribute name of python3
+            Args:
+                key (str): The key to be checked
+            Returns:
+                1 if key is valid attribute name else 0
+        """
+        res = 1
+        for i in range(len(key)):
+            if key[i] not in key_name:
+                res = 0
+                break
+        return res
+
 
 
 if __name__ == "__main__":
