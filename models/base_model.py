@@ -2,7 +2,7 @@
 """This is a module that define a base model class of the project."""
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import declarative_base
 from models import storage
 
