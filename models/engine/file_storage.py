@@ -19,7 +19,9 @@ class FileStorage():
     __objects = {}
 
     def all(self, cls=None):
-        """Returns the dictionary __objects OR dict objects of specified class"""
+        """Returns the dictionary __objects OR dict objects of
+        specified class
+        """
         if cls:
             from models.base_model import BaseModel
             from models.user import User
@@ -114,7 +116,7 @@ class FileStorage():
             }
         new_obj = class_dict[class_name](**kwargs)
         return new_obj
-    
+
     def delete(self, obj=None):
         """
         Deletes an object from the live object list of the project
@@ -125,4 +127,3 @@ class FileStorage():
             key = '{}.{}'.format(type(obj).__name__, obj.id)
             if key in FileStorage.__objects:
                 del FileStorage.__objects[key]
-
