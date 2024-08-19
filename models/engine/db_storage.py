@@ -66,10 +66,14 @@ class DBStorage():
             return (ret_dict)
 
         for key, table in class_dict.items():
-            qry = session.query(table).all()
-            for inst in qry:
-                key = '{}.{}'.format(type(inst).__name__, inst.id)
-                ret_dict[key] = inst
+            try:
+                qry = session.query(table).all()
+            except Exception as e:
+                pass
+            else:
+                for inst in qry:
+                    key = '{}.{}'.format(type(inst).__name__, inst.id)
+                    ret_dict[key] = inst
         return (ret_dict)
 
     def new(self, obj):
