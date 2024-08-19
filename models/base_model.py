@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """This is a module that define a base model class of the project."""
 import uuid
+import models
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import declarative_base
-from models import storage
 
 Base = declarative_base()
 
@@ -45,8 +45,8 @@ updated_at (datetime): The date and time at which project objects are modified
     def save(self):
         """Updates the updated_at attribute with the current datetime."""
         self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """Returns a dictionary representation of an instance."""
@@ -65,7 +65,7 @@ updated_at (datetime): The date and time at which project objects are modified
         """
         Delete the object from a list of live objects of the project
         """
-        storage.delete(obj=self)
+        models.storage.delete(obj=self)
 
     def __str__(self):
         """Return a nice printable string representation of the object."""
