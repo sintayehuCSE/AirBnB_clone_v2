@@ -3,7 +3,8 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
-from models.base_model import BaseModel, Base, storage
+import models
+from models.base_model import BaseModel, Base
 
 
 class City(BaseModel, Base):
@@ -12,7 +13,7 @@ class City(BaseModel, Base):
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128), nullable=False)
-        state_id = Column(Strring(60), ForeignKey('states.id'), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
         state = relationship('State', back_populates='cities')
     else:  # getenv('HBNB_TYPE_STORAGE') is 'FileStorage':
         name = ''
@@ -23,7 +24,7 @@ class City(BaseModel, Base):
             """
             Get the State Object of the current City Object
             """
-            state_list = storage.all('State')
+            state_list = models.storage.all('State')
             city_state = None
             for key, value in state_list.items():
                 if self.state_id == value.id:
