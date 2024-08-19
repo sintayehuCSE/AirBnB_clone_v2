@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """The entry point of the command interpreter for
     ABNB Clone project
 """
@@ -54,7 +54,10 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     if hasattr(obj, key):
                         try:
-                            obj.__dict__[key] = type(getattr(obj, key))(param_dict[key])
+                            if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+                                obj.__dict__[key] = param_dict[key]
+                            else:  # os.getenv('HBNB_TYPE_STORAGE') is 'FileStorage':
+                                obj.__dict__[key] = type(getattr(obj, key))(param_dict[key])
                         except Exception as e:
                             print(e)
                 except Exception as e:
