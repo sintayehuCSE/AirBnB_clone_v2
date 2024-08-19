@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """The State Module: Defines State class of the Project."""
-from models.base_model import BaseModel, Base, storage
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from os import getenv
+import models
+from models.base_model import BaseModel, Base
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """Desfine the State class."""
     __tablename__ = 'states'
 
@@ -26,7 +27,7 @@ class State(BaseModel):
 
             => It will be the FileStorage relationship between State and City
             """
-            city_list = storage.all(cls='City')
+            city_list = models.storage.all(cls='City')
             state_city = []
             try:
                 for key in city_list:
