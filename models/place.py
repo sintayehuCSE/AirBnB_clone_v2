@@ -64,7 +64,7 @@ class Place(BaseModel, Base):
             amenity_inst = models.storage.all('Amenity')
             place_amenity = []
             for key in amenity_inst:
-                if amenity_inst[key].id in amenity_ids:
+                if amenity_inst[key].id in self.amenity_ids:
                     place_amenity.append(amenity_inst[key])
             return (place_amenity)
 
@@ -72,4 +72,4 @@ class Place(BaseModel, Base):
         def amenities(self, value):
             from models.amenity import Amenity
             if type(value) is Amenity:
-                amenity_ids.append(value.id)
+                self.amenity_ids.append(value.id)
