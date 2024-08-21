@@ -1,10 +1,14 @@
 #!/usr/bin/python3
 """The place module: It Holds the Place class of the Project."""
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 import models
 from models.base_model import BaseModel, Base
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+                      Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -25,6 +29,7 @@ class Place(BaseModel, Base):
         user = relationship('User', back_populates='places')
         cities = relationship('City', back_populates='places')
         reviews = relationship('Review', back_populates='place', cascade='all, delete, delete-orphan')
+        amenities = relationship('Amenity', secondary=place_amenity, back_populates='places', viewonly=False)
     else:  # If Storage env is FileStorage
         city_id = ""
         user_id = ""
@@ -50,3 +55,21 @@ class Place(BaseModel, Base):
                 if self.id == review_inst[key].place_id:
                     place_review.append(review_inst[key])
             return (place_review)
+
+        @property
+        def amenities(self):
+            """
+            Get a list of all amenity instance of this place
+            """
+            amenity_inst = models.storage.all('Amenity')
+            place_amenity = []
+            for key in amenity_inst:
+                if amenity_inst[key].id in amenity_ids:
+                    place_amenity.append(amenity_inst[key])
+            return (place_amenity)
+
+        @amenities.setter
+        def amenities(self, value):
+            from models.amenity import Amenity
+            if type(value) is Amenity:
+                amenity_ids.append(value.id)
