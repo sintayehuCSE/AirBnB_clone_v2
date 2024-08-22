@@ -34,7 +34,7 @@ class Place(BaseModel, Base):
         reviews = relationship('Review', back_populates='place',
                                cascade='all, delete, delete-orphan')
         amenities = relationship('Amenity', secondary=place_amenity,
-                                 back_populates='places', viewonly=False)
+                                 back_populates='place_amenities', viewonly=False)
     else:  # If Storage env is FileStorage
         city_id = ""
         user_id = ""
