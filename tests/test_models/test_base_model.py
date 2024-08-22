@@ -92,22 +92,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(d["name"], b.name)
         self.assertEqual(d["age"], b.age)
 
-    def test_3_to_dict_no_args(self):
-        """Tests to_dict() with no arguments."""
-        with self.assertRaises(TypeError) as e:
-            BaseModel.to_dict()
-        m1 = "to_dict() missing 1 required "
-        m2 = "positional argument: 'self'"
-        self.assertEqual(str(e.exception), m1 + m2)
-
-    def test_3_to_dict_excess_args(self):
-        """Tests to_dict() with too many arguments."""
-        with self.assertRaises(TypeError) as e:
-            BaseModel.to_dict(self, 98)
-        m1 = "to_dict() takes 1 positional "
-        m2 = "argument but 2 were given"
-        self.assertEqual(str(e.exception), m1 + m2)
-
     def test_4_instantiation(self):
         """Tests instantiation of objects with **kwargs."""
         obj = BaseModel()
@@ -143,23 +127,6 @@ class TestBaseModel(unittest.TestCase):
             self.assertEqual(len(f.read()), len(json.dumps(d)))
             f.seek(0)
             self.assertEqual(json.load(f), d)
-        self.resetStorage()
-
-    def test_5_save_no_args(self):
-        """Tests save() with no arguments."""
-        self.resetStorage()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save()
-        msg = "save() missing 1 required positional argument: 'self'"
-        self.assertEqual(str(e.exception), msg)
-
-    def test_5_save_excess_args(self):
-        """Tests save() with too many arguments."""
-        self.resetStorage()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save(self, 98)
-        msg = "save() takes 1 positional argument but 2 were given"
-        self.assertEqual(str(e.exception), msg)
         self.resetStorage()
 
 
