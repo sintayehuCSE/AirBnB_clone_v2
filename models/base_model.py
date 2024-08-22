@@ -39,7 +39,8 @@ updated_at (datetime): The date and time at which project objects are modified
                     if key == "created_at" or key == "updated_at":
                         value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                     if key != "__class__":
-                        setattr(self, key, value)
+                        if hasattr(self, key):
+                            setattr(self, key, value)
                     if 'id' not in kwargs:
                         self.id = str(uuid.uuid4())
                     if 'created_at' not in kwargs:
