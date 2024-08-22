@@ -2,12 +2,15 @@
 """Test the Console Module - Command line interpretor for Abnb clone Project."""
 import os
 import sys
+import pep8
+import models
 import unittest
 from io import StringIO
 from models import storage
 from unittest.mock import patch
 from console import HBNBCommand
 from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
 
 
 class TestConsole(unittest.TestCase):
@@ -1354,7 +1357,6 @@ class TestHBNBCommand_count(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("Review.count()"))
             self.assertEqual("1", output.getvalue().strip())
-
 
 if __name__ == "__main__":
     unittest.main()
