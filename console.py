@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """The entry point of the command interpreter for
     ABNB Clone project
 """
@@ -16,6 +16,7 @@ from models import storage
 
 key_name = 'abcdefghijklmnopqrstuvwxyz_'
 value_name = 'abcdefghijklmnopqrstuvwxyz_'
+
 
 class HBNBCommand(cmd.Cmd):
     """ A simple framework for line-oriented command interpretor
@@ -39,9 +40,10 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-        """Usage: create <Class Name> OR create <Class Name> <param 1> <param 2> <param 3>...
+        """Usage: create <Class Name> OR
+                  create <Class Name> <param 1> <param 2> <param 3>...
         Param syntax: <key name>=<value>
-        
+
         Create a new class instance and print its id.
         """
         constructor, param = self.find_class(arg)
@@ -56,8 +58,9 @@ class HBNBCommand(cmd.Cmd):
                         try:
                             if os.getenv('HBNB_TYPE_STORAGE') == 'db':
                                 obj.__dict__[key] = param_dict[key]
-                            else:  # os.getenv('HBNB_TYPE_STORAGE') is 'FileStorage':
-                                obj.__dict__[key] = type(getattr(obj, key))(param_dict[key])
+                            else:  # os.getenv('HBNB_TYPE_STORAGE') is 'File':
+                                v = type(getattr(obj, key))(param_dict[key])
+                                obj.__dict__[key] = v
                         except Exception as e:
                             print(e)
                 except Exception as e:
@@ -138,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
                         attr_value, other_arg = self.parse_arg(attr_value)
                         attr_value = attr_value.strip('"')
                         cnst = (attr_name != 'id' and attr_name != 'created_at'
-                               and attr_name != 'updated_at')
+                                and attr_name != 'updated_at')
                         if cnst:
                             if hasattr(obj, attr_name):
                                 try:
@@ -309,7 +312,7 @@ class HBNBCommand(cmd.Cmd):
             self.do_update(class_name + " " + arg_format)
         else:
             print("*** Unknown syntax: {}{}".format(class_name, arg))
-    
+
     def format_param(self, param):
         """
             Formats the input key-value pairs in to a dictionary attribute
@@ -334,7 +337,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 return {}
         return att_dict
-    
+
     def check_key_validity(self, key):
         """
             Check that key name conforms to conventional attribute name of python3
@@ -349,7 +352,6 @@ class HBNBCommand(cmd.Cmd):
                 res = 0
                 break
         return res
-
 
 
 if __name__ == "__main__":
