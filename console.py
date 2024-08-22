@@ -41,10 +41,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Usage: create <Class Name> OR
-                  create <Class Name> <param 1> <param 2> <param 3>...
-        Param syntax: <key name>=<value>
-
-        Create a new class instance and print its id.
+        create <Class Name> <param 1> <param 2> <param 3>...
         """
         constructor, param = self.find_class(arg)
         if constructor:
@@ -73,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
         Display the string representation of a class instance of a given id.
         """
         class_name, obj_id = self.parse_arg(arg)
-        constructor = self.find_class(class_name)
+        constructor, param = self.find_class(class_name)
         if constructor:
             obj = self.find_obj(class_name, obj_id)
             if obj:
@@ -84,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
         Delete a class instance of a given id.
         """
         class_name, obj_id = self.parse_arg(arg)
-        constructor = self.find_class(class_name)
+        constructor, param = self.find_class(class_name)
         if constructor:
             obj = self.find_obj(class_name, obj_id)
             if obj:
@@ -101,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         live_obj = storage.all()
         str_repr = []
         if arg:
-            constructor = self.find_class(arg)
+            constructor, param = self.find_class(arg)
             if constructor:
                 for key in live_obj.keys():
                     if type(live_obj[key]).__name__ == arg:
@@ -119,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         Update a class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
         class_name, obj_info = self.parse_arg(arg)
-        constructor = self.find_class(class_name)
+        constructor, p = self.find_class(class_name)
         if constructor:
             old_identchars = self.identchars
             self.identchars = self.identchars + '-"'
@@ -288,7 +285,7 @@ class HBNBCommand(cmd.Cmd):
         """
         count = 0
         live_obj = storage.all()
-        constructor = self.find_class(class_name)
+        constructor, param = self.find_class(class_name)
         if constructor:
             for key in live_obj.keys():
                 if type(live_obj[key]) is constructor:
