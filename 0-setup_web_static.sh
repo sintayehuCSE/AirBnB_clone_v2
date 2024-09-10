@@ -20,7 +20,7 @@ printf %s "<!DOCTYPE html>
 " | sudo tee /data/web_static/releases/test/index.html
 
 sudo ln --symbolic --force /data/web_static/releases/test/ /data/web_static/current
-sudo chown --recursive -L ubuntu:ubuntu /data/
+sudo chown --recursive ubuntu:ubuntu /data/
 
 new_location="server_name _;\n\tlocation \/hbnb_static\/ {\n\t\talias \/data\/web_static\/current\/;\n\t}"
 sudo sed -i "s/server_name _;/$new_location/" /etc/nginx/sites-available/default
