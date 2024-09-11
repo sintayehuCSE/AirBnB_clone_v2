@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """ A Fabric script that deploy web static archive file
   to a remote web-servers"""
-from fabric.api import *
+from fabric.api import put, sudo, env
+from os import path
 env.user = "ubuntu"
 env.hosts = ['100.25.33.79', '34.227.101.79']
 
@@ -11,7 +12,7 @@ def do_deploy(archive_path):
     to a remote servers
     """
     try:
-        if not archive_path:
+        if not path.isfile(archive_path):
             return False
         else:
             archive_name = archive_path[archive_path.find('/') + 1:]
