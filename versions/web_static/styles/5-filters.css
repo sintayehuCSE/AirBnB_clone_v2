@@ -1,0 +1,49 @@
+div section.filters{
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+div.container section.filters button{
+    font-size: 18px;
+    background-color: #ff5a5f;
+    color: #fff;
+    height: 48px;
+    width: 20%;
+    border: none;
+    border-radius: 4px;
+    float: right;
+    margin: 12px 30px;
+}
+/*change opacity to 90% when the mouse is on the button*/
+.filters button:hover{
+    background-color: rgba(255, 90, 95, .9);
+}
+.locations, .amenities{
+    display: inline-block;
+    height: 100%;
+    width: 25%;
+}
+.locations{
+    border-right: 1px solid #ddd;
+}
+.filters h3,
+.filters h4{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+}
+h3{
+    font-size: 1.17em;
+    font-weight: 600;
+    height: 50%;
+    padding: 15.5px 0 0 30px;
+}
+h4{
+    font-weight: 400;
+    font-size: 14px;
+    height: 50%;
+    padding: 5px 0 12px 30px;
+}

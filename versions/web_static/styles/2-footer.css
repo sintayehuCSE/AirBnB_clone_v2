@@ -1,0 +1,10 @@
+footer{
+    height: 60px;
+    width: 100%;
+    background-color: #0f0;
+    position: absolute;
+    bottom: 0px;
+    display: -webkit-flex;
+    justify-content: center;
+    align-items: center;
+}
