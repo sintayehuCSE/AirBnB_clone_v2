@@ -19,6 +19,7 @@ def hbnb():
     """Serve a request for /hbnb"""
     return "HBNB"
 
+
 @app.route('/c/<text>', strict_slashes=False)
 def cIsFun(text):
     return "C {}".format(escape(text)).replace('_', ' ')
