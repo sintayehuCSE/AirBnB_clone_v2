@@ -9,10 +9,13 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def index():
+    """Serve a request for a root directory"""
     return "Hello HBNB!"
+
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
+    """Serve a request for /hbnb"""
     return "HBNB"
 
 
