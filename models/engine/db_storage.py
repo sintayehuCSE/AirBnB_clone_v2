@@ -113,3 +113,4 @@ class DBStorage():
     def close(self):
         """Close the current session of a request"""
         self.__session.remove()
+        self.reload()
