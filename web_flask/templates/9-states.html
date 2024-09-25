@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<HTML lang='en'>
+  <HEAD>
+    <TITLE>HBNB</TITLE>
+  </HEAD>
+  <BODY>
+    {%- for key, state in states.items() if state.id is equalto id %}
+      <H1>State: {{ state.name }}</H1>
+      <H3>Cities:</H3>
+      <UL>
+        {%- for city in state.cities|sort(attribute="name") %}
+          <LI>{{ city.id }}: {{ city.name }}</LI>
+        {%- endfor %}
+      </UL>
+    {%- else %}
+      <H1>Not Found!</H1>
+    {%- endfor %}
+  </BODY>
+</HTML>
