@@ -32,7 +32,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, arg):
         """Qiuts the command interpretor session."""
-        storage.reload()
         return True
 
     def do_EOF(self, arg):
