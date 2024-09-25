@@ -48,9 +48,11 @@ def number_template(n):
 def even_or_odd(n):
     return render_template("6-number_odd_or_even.html", n=n)
 
+
 @app.teardown_appcontext
 def close_app(func):
     storage.close()
+
 
 @app.route("/states_list", strict_slashes=False)
 def list_state():
