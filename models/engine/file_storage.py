@@ -130,4 +130,5 @@ class FileStorage():
 
     def close(self):
         """Deseraliaze the JSON file to python objects via reload()"""
+        FileStorage.__objects.clear()
         self.reload()
