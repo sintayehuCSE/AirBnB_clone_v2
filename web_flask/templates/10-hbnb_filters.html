@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>AirBnB Clone</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/tab_icon.png') }}">
+    </head>
+    <body>
+        <header></header>
+        <div class="container">
+            <section class="filters">
+                <button>Search</button>
+                <div class="locations">
+                    <h3>States</h3>
+                    <h4>&nbsp</h4>
+                    <div class="popover">
+                        {%- for id, state in states.items()|sort(attribute="1.name") %} 
+                            <h2>{{ state.name }}</h2>
+                            <ul>
+                                {%- for city in state.cities|sort(attribute="name") %}
+                                    <li>{{ city.name }}</li>
+                                {%- endfor %}
+                            </ul>
+                        {%- endfor %}
+                    </div>
+                </div>
+                <div class="amenities">
+                    <h3>Amenities</h3>
+                    <h4>&nbsp</h4>
+                    <div class="popover">
+                        <ul>
+                            {%- for amenity in amenities|sort(attribute="name") %}
+                                <li>Internet</li>
+                            {%- endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer>Best School</footer>
+    </body>
+</html>
